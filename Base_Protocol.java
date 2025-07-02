@@ -1,6 +1,6 @@
 /*
  * Sistemas de Telecomunicacoes 
- *          2022/2023
+ *          
  */
 package protocol;
 
