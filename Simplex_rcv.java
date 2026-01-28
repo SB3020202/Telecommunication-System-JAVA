@@ -12,7 +12,6 @@ import terminal.NetworkLayer;
 /**
  * Protocol 2 : Simplex Receiver protocol which does not transmit frames
  * 
- * @author 62964 (Put here your students' numbers)
  */
 public class Simplex_rcv extends Base_Protocol implements Callbacks {
 
