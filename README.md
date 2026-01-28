@@ -1,5 +1,7 @@
 # Data Link Layer Protocols Implementation
 
+**Final Grade:** 17.5/20
+
 **Course:** Telecommunications Systems
 **Language:** Java  
 **Context:** Network Simulator (`terminal.Simulator`)
