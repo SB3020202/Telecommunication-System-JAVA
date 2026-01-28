@@ -1,41 +1,57 @@
-# 📱 Telecommunication System (JAVA)
+# Data Link Layer Protocols Implementation
 
-Este repositório contém um sistema de simulação de uma operadora de telecomunicações desenvolvido em **Java**. O projeto foca-se na gestão de clientes, diferentes tipos de contas (pré-pago e pós-pago) e cálculo de faturação, aplicando conceitos fundamentais de **Programação Orientada a Objetos (POO)**.
+**Course:** Telecommunications Systems
+**Language:** Java  
+**Context:** Network Simulator (`terminal.Simulator`)
 
-## 📋 Sobre o Projeto
+## 📄 Project Description
 
-O objetivo deste sistema é demonstrar a lógica de negócio de uma empresa de telecomunicações. Permite ao administrador gerir a base de dados de clientes e simular operações diárias como chamadas e carregamentos de saldo.
+This project consists of the implementation of various Data Link Layer protocols, ranging from simple theoretical approaches to robust sliding window mechanisms with flow control. The goal is to ensure reliable data transmission over a channel subject to errors and losses by managing acknowledgments, timers, and buffers.
 
-**Conceitos aplicados:**
-* **Abstração e Encapsulamento:** Proteção de dados sensíveis e definição de modelos.
-* **Herança e Polimorfismo:** Diferenciação entre tipos de clientes e serviços.
-* **Collections:** Uso de Listas e Maps para armazenamento de dados em memória.
+## 🚀 Implemented Protocols
 
-## 🚀 Funcionalidades
+### 1. Utopian Protocol (`Utopian_snd.java` / `Utopian_rcv.java`)
+* **Type:** Simplex (One-way), Error-free.
+* **Mechanism:** Assumes an ideal channel and infinite buffers. The sender transmits data continuously without waiting for confirmation. The receiver accepts all data and sends simple ACKs, but there is no retransmission logic.
 
-* **Gestão de Clientes:** Adicionar, visualizar e remover clientes.
-* **Tipos de Conta:**
-    * *Pré-pago:* Requer carregamento de saldo para efetuar operações.
-    * *Pós-pago:* As despesas são acumuladas numa fatura mensal.
-* **Simulação de Serviços:**
-    * Chamadas de voz (Custo calculado por duração).
-    * Envio de SMS.
-    * Consumo de Internet/Dados.
-* **Faturação:** Geração de relatórios de custos e saldo atual.
+### 2. Simplex Protocol (`Simplex_snd.java` / `Simplex_rcv.java`)
+* **Type:** One-way Stop-and-Wait.
+* **Mechanism:**
+    * **Sender:** Sends a packet and blocks until it receives the corresponding ACK or the timer expires (`handle_Data_Timer`).
+    * **Receiver:** Validates the sequence number (`frame_expected`) before delivering to the network layer, discarding duplicates.
 
-## 🛠️ Tecnologias Utilizadas
+### 3. Stop & Wait (`StopWait.java`)
+* **Type:** Bidirectional with Retransmission.
+* **Features:**
+    * **Piggybacking:** Acknowledgments (ACKs) are hitched onto data frames (`last_DataF_rcv.ack()`) to save bandwidth.
+    * **Timers:** Uses data timers for retransmission and ACK timers to send explicit confirmations when there is no return traffic.
 
-* **Linguagem:** Java (JDK 8+)
-* **IDE Sugerido:** IntelliJ IDEA, Eclipse ou NetBeans
-* **Controlo de Versão:** Git
+### 4. Go-Back-N (`GoBackN.java`)
+* **Type:** Sliding Window.
+* **Features:**
+    * **Pipeline:** Allows sending multiple packets (up to `win_size`) before requiring acknowledgment.
+    * **Error Handling:**
+        * **NAKs:** Sends *Negative Acknowledgements* upon detecting gaps in the expected sequence to accelerate recovery (`send_NAK`).
+        * **Rollback:** In case of error or timeout, the `roll_back_it` function resets transmission starting from the lost packet, discarding subsequent out-of-order packets.
+    * **Sending Buffer:** Maintains a history (`sending_buffer`) of packets sent but not yet acknowledged.
 
-## 📂 Estrutura do Projeto
+### 5. Go-Back-N with Flow Control (`GoBackN_FlowC.java`)
+* **Type:** Sliding Window with Buffer Management.
+* **Improvement:** Adds logic to prevent receiver *buffer overflow*.
+* **Mechanism:**
+    * Monitors the receiver's buffer size (`rcvbufsize`) reported in frame headers.
+    * Pauses transmission if the receiver is full (when `rcv_buff == 0`).
+    * Resumes sending upon the `new_network_buffers` event, which signals that space has been freed.
 
-A estrutura de pastas segue o padrão convencional de projetos Java:
+## 🛠️ Structure and Utilities
 
-```text
-src/
-├── main/           # Classe principal (Main/Menu)
-├── model/          # Classes de modelo (Cliente, Fatura, Servico)
-├── service/        # Lógica de negócio e operações
-└── utils/          # Utilitários auxiliares
+* **`Base_Protocol.java`:** Base class that implements modular arithmetic for sequence numbers (functions `next_seq`, `prev_seq`, `between`, `diff_seq`) to correctly handle sequence wrap-around.
+* **`Callbacks.java`:** Interface defining the methods for handling simulator events (frame arrival, timeouts, end of transmission, etc.).
+
+## 👤 Authors
+
+* **Martim Agostinho (62964)**
+* **Martim Duarte Agostinho (62964)**
+
+---
+*Project developed for the Computer Science / Electrical Engineering degree - FCT UNL.*
