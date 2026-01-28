@@ -50,8 +50,8 @@ This project consists of the implementation of various Data Link Layer protocols
 
 ## 👤 Authors
 
-* **Martim Agostinho (62964)**
-* **Martim Duarte Agostinho (62964)**
+* **Sidi brahim**
+
 
 ---
 *Project developed for the Computer Science / Electrical Engineering degree - FCT UNL.*
