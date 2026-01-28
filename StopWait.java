@@ -14,7 +14,6 @@ import terminal.Terminal;
 /**
  * Protocol 3 : Stop & Wait protocol
  * 
- * @author Martim Agostinho 62964
  */
 public class StopWait extends Base_Protocol implements Callbacks {
 
