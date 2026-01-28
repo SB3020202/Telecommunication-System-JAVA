@@ -15,7 +15,6 @@ import terminal.Terminal;
 /**
  * Protocol 5 : Go-back-N protocol with flow control (buffer size)
  *
- * @author Martim Duarte Agostinho (62964)
  */
 public class GoBackN_FlowC extends Base_Protocol implements Callbacks {
 
