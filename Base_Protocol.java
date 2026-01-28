@@ -12,7 +12,6 @@ import terminal.NetworkLayer;
  * Base protocol class that defines support functions for a basic timer interface,
  *     manipulating sequence numbers and default event handlers
  * 
- * @author lflb@fct.unl.pt
  */
 public class Base_Protocol implements Callbacks {
 
