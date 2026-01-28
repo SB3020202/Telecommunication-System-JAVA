@@ -7,7 +7,6 @@ package protocol;
 /**
  * Interface implemented by the Protocol to receive events from the channel.
  * 
- * @author lflb@fct.unl.pt
  */
 public interface Callbacks {
     
