@@ -15,7 +15,6 @@ import terminal.Terminal;
 /**
  * Protocol 4 : Go-back-N protocol
  *
- * @author Martim Agostinho 62964
  */
 public class GoBackN extends Base_Protocol implements Callbacks {
 
